@@ -1,4 +1,4 @@
-if ('serviceWorker' in navigator) {
+if ( 'serviceWorker' in navigator ) {
 	window.addEventListener('load', () => {
 		navigator.serviceWorker.register('./sw.js')
 			.then( registration => {
@@ -11,3 +11,9 @@ if ('serviceWorker' in navigator) {
 			.catch( err => console.log(`Service Worker record failed`, err) )
 	})
 }
+
+// if ( window.notification && notification !== 'denied' ) {
+// 	notification.requestPermission(status = {
+// 		console.log(status)		
+// 	})
+// }

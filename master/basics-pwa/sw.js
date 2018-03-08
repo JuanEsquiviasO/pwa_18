@@ -1,14 +1,14 @@
 const CACHE_NAME = 'pwa-demo-rommel-cache-v1',
 urlsToCache = [
-	'./',
+	'/',
 	'./',
 	'./?utm=homescreen',
 	'./index.html',
 	'./index.html?utm=homescreen',
-	'/style.css',
+	'./style.css',
 	'./script.js',
 	'./sw.js',
-	'.favicon.ico',
+	'./favicon.ico',
 	'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'
 ]
 
@@ -16,11 +16,11 @@ self.addEventListener('install', e => {
 	console.log('Event: Service Worker installed')
 	e.waitUntil(
 		caches.open(CACHE_NAME)
-		.then(cache => {
-			console.log('Files in cache')
-			return cache.addAll(urlsToCache)
-		})
-		.catch(err => console.log('Failed register of cache', err))
+			.then(cache => {
+				console.log('Files in cache')
+				return cache.addAll(urlsToCache)
+			})
+			.catch(err => console.log('Failed register of cache', err))
 	)
 })
 
@@ -31,12 +31,13 @@ self.addEventListener('activate', e => {
 	e.waitUntil(
 		caches.keys()
 			.then(cachesNames => {
-				return Promise.all()
+				return Promise.all(
 					cachesNames.map(cacheName => {
 						if ( cacheList.indexOf(cacheName) === -1 ) {
 							return caches.delete(cacheName)
 						}
 					})
+				)	
 			})
 			.then(() => {
 				console.log('The cache is clean ad updated')
@@ -47,4 +48,26 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
 	console.log('Event: Service Worker recovering')
+	e.respondWith(
+		caches.match(e.request)
+			.then(res => {
+				if ( res ) {
+					return res
+				}
+
+				return fetch( request )
+					.then(res => {
+						let resToCache = res.clone()
+						
+						caches.open(cacheName)
+							.then(cache => {
+								cache
+									.put(request, resToCache)
+									.catch(err => console.log(`${request.url}: ${err.message}`))
+							})
+						
+						return res
+					})
+			})
+	)
 })
