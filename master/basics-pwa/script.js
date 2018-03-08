@@ -12,8 +12,12 @@ if ( 'serviceWorker' in navigator ) {
 	})
 }
 
-// if ( window.notification && notification !== 'denied' ) {
-// 	notification.requestPermission(status = {
-// 		console.log(status)		
-// 	})
-// }
+if ( window.Notification && Notification.permission !== 'denied' ) {
+	Notification.requestPermission(status => {
+		console.log(status)
+		let n = new Notification('Title', {
+			body: 'Hey, a notification',
+			icon: './img/icon_192x192.png'
+		})
+	})
+}
