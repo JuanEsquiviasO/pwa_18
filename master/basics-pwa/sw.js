@@ -89,3 +89,16 @@ self.addEventListener('push', e => {
 
 		e.waitUntil( self.registration.showNotification(title, options) )
 })
+
+self.addEventListener('notificationclick', e => {
+	console.log(e)
+	
+	if ( e.action === 'Yes' ) {
+		console.log('I like this App')
+		clients.openWindow('https://juanesquiviaso.github.io/')
+	} else if ( e.action === 'No') {
+		console.log('I dont like this App')		
+	}
+
+	e.notification.close()
+})
