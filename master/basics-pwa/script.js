@@ -29,7 +29,33 @@
 
 })(document, window, navigator, console.log);
 
+//Detection conexion state
 ((d, w, n, c) => {
+	const header = d.querySelector('.Header'),
+		metaTagTheme = d.querySelector('meta[name=theme-color]')
+
+	function networkStatus(e) {
+		c( e, e.type )
+
+		if ( n.onLine ) {
+			metaTagTheme.setAttribute('content', '#F7DF1E')
+			header.classList.remove('u-offline')
+			alert('recovered connection')
+		} else {
+			metaTagTheme.setAttribute('content', '#666')
+			header.classList.add('u-offline')
+			alert('lost connection')
+		}
+	}
+
+	d.addEventListener('DOMContentLoaded', e => {
+		if ( !n.online ) {
+			networkStatus(this)
+		}
+		
+		w.addEventListener('online', networkStatus)
+		w.addEventListener('offline', networkStatus)
+	})
 
 })(document, window, navigator, console.log);
 
