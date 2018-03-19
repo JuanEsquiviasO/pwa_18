@@ -102,3 +102,19 @@ self.addEventListener('notificationclick', e => {
 
 	e.notification.close()
 })
+
+self.addEventListener('sync', e => {
+	console.log('Event: Background synchronization', e);
+
+	if (e.tag === 'github' || e.tag === 'test-tag-from-devtools') {
+		e.waitUntil(
+			self.clients.matchAll()
+				.then( all => {
+					return all.map(client => {
+						return client.postMessage('online')
+					})
+				})
+				.catch( err => console.log(err)	)
+		)
+	}
+})

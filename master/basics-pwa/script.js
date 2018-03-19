@@ -16,7 +16,7 @@
 		})
 	}
 
-//Activiting Notifications
+	//Activiting Notifications
 	if (w.Notification && Notification.permission !== 'denied') {
 		Notification.requestPermission(status => {
 			console.log(status)
@@ -27,6 +27,19 @@
 		})
 	}
 
+	//Activate background sync
+	if ( 'serviceWorker' in n && 'SyncManager' in w ) {
+		function registerBGSync () {
+			n.serviceWorker.ready
+				.then(registration => {
+					return registration.sync.register('github')
+						.then(() => c('Registered background synchronization'))
+						.catch(err => c('Background synchronization failed', err))
+				})
+		}
+
+		registerBGSync()
+	}
 })(document, window, navigator, console.log);
 
 //Detection conexion state
@@ -63,7 +76,7 @@
 
 })(document, window, navigator, console.log);
 
-((d, w, n, c) => {
+((d, w, n, c) => {	
 
 })(document, window, navigator, console.log);
 
