@@ -72,13 +72,45 @@
 
 })(document, window, navigator, console.log);
 
+//API GitHub
 ((d, w, n, c) => {
+	const userInfo = d.querySelector('.GitHubUser'),
+			searchform = d.querySelector('.GitHubUser-form')
 
+	function fetchGitHubUser(username, requestFromBGSync) {
+		let name = username || 'juanesquiviaso',
+		url = `https://api.github.com/users/${name}`
+		
+		fetch(url, { method:'GET' })
+			.then(response => response.json())
+			.then(userData => {
+				let template = `
+					<article class="GitHubUser-info">
+						<h2>${userData.name}</h2>
+						<img src="${userData.avatar_url}" alt="${userData.Login}">
+						<p>${userData.info}</p>
+						<ul>
+							<li>User GitHub ${userData.login}</li>
+							<li>Url GitHub ${userData.html_url}</li>
+							<li>Followers ${userData.followers}</li>
+							<li>Follow ${userData.following}</li>
+							<li>Ubication ${userData.location}</li>
+						</ul>
+					</article>
+				`
+				userInfo.innerHTML = template
+			})
+			.catch(err => {
+				c(err)
+			})
+	}
+
+	fetchGitHubUser()
 })(document, window, navigator, console.log);
-
+	
 ((d, w, n, c) => {	
 
 })(document, window, navigator, console.log);
 
-
-
+//Run Server
+//http-server -p 3008 -c-1
