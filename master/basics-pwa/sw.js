@@ -104,9 +104,9 @@ self.addEventListener('notificationclick', e => {
 })
 
 self.addEventListener('sync', e => {
-	console.log('Event: Background synchronization', e);
+	console.log('Event: Background synchronization', e)
 
-	if (e.tag === 'github' || e.tag === 'test-tag-from-devtools') {
+	if ( e.tag === 'github' || e.tag === 'test-tag-from-devtools' ) {
 		e.waitUntil(
 			self.clients.matchAll()
 				.then( all => {
@@ -118,3 +118,8 @@ self.addEventListener('sync', e => {
 		)
 	}
 })
+
+// self.addEventListener('message' e => {
+// 	console.log('From Background synchronization: ', e.data)
+// 	fetchGitHubUser( localStorage.getItem('github'), true )
+// })

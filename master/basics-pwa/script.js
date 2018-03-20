@@ -33,12 +33,28 @@
 			n.serviceWorker.ready
 				.then(registration => {
 					return registration.sync.register('github')
-						.then(() => c('Registered background synchronization'))
-						.catch(err => c('Background synchronization failed', err))
+						.then( () => c('Registered background synchronization') )
+						.catch( err => c('Background synchronization failed', err) )
 				})
 		}
 
 		registerBGSync()
+	}
+	//Sharing content with API Share
+	if ( n.share !== undefined ) {
+		d.addEventListener('DOMContentLoaded', e=> {
+			let shareBtn = d.getElementById('share')
+
+			shareBtn.addEventListener('click', e => {
+				n.share({
+					title: d.title,
+					text: 'Hi, are ready for share',
+					url: w.location.href
+				})
+					.then( () => c.log('Success when sharing') )
+					.catch( err => c.log('Error when share: ', err) )
+			})
+		})
 	}
 })(document, window, navigator, console.log);
 
@@ -79,16 +95,18 @@
 
 	function fetchGitHubUser(username, requestFromBGSync) {
 		let name = username || 'juanesquiviaso',
-		url = `https://api.github.com/users/${name}`
+			url = `https://api.github.com/users/${name}`
 		
 		fetch(url, { method:'GET' })
 			.then(response => response.json())
 			.then(userData => {
-
+				if (!requestFromBGSync) {
+					localStorage.removeItem('github')
+				}
 
 				let template = `
 					<article class="GitHubUser-info">
-						<h2>${userData.name}</h2>
+						<h2>${userData.name}</h2>s
 						<img src="${userData.avatar_url}" alt="${userData.Login}">
 						<p>${userData.info}</p>
 						<ul>
@@ -103,11 +121,12 @@
 				userInfo.innerHTML = template
 			})
 			.catch(err => {
+				localStorage.setItem('github', name)
 				c(err)
 			})
 	}
 
-	fetchGitHubUser()
+	fetchGitHubUser( localStorage.getItem('github') )
 
 	searchForm.addEventListener('submit', e => {
 		e.preventDefault()
@@ -121,11 +140,12 @@
 
 		e.target.reset()
 	})
+
+	n.serviceWorker.addEventListener('message', e => {
+		console.log('From Background Synchronization: ', e.data) 	
+		fetchGitHubUser( localStorage.getItem('github'), true ) 
+	})
 })(document, window, navigator, console.log);
 	
-((d, w, n, c) => {	
-
-})(document, window, navigator, console.log);
-
 //Run Server
 //http-server -p 3008 -c-1
