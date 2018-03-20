@@ -75,7 +75,7 @@
 //API GitHub
 ((d, w, n, c) => {
 	const userInfo = d.querySelector('.GitHubUser'),
-			searchform = d.querySelector('.GitHubUser-form')
+			searchForm = d.querySelector('.GitHubUser-form')
 
 	function fetchGitHubUser(username, requestFromBGSync) {
 		let name = username || 'juanesquiviaso',
@@ -84,6 +84,8 @@
 		fetch(url, { method:'GET' })
 			.then(response => response.json())
 			.then(userData => {
+
+
 				let template = `
 					<article class="GitHubUser-info">
 						<h2>${userData.name}</h2>
@@ -106,6 +108,19 @@
 	}
 
 	fetchGitHubUser()
+
+	searchForm.addEventListener('submit', e => {
+		e.preventDefault()
+
+		let user = d.getElementById('search').value
+
+		if ( user === '' ) return;
+
+		localStorage.setItem('github', user)
+		fetchGitHubUser(user)
+
+		e.target.reset()
+	})
 })(document, window, navigator, console.log);
 	
 ((d, w, n, c) => {	
