@@ -52,7 +52,7 @@
 					url: w.location.href
 				})
 					.then( () => c.log('Success when sharing') )
-					.catch( err => c.log('Error when share: ', err) )
+					.catch( err => c.log('Error when sharing: ', err) )
 			})
 		})
 	}
