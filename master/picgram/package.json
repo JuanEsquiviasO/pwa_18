@@ -1,9 +1,12 @@
 {
   "name": "webpack-multi-starter-kit",
   "version": "1.0.0",
-  "description": "Un kit para iniciar proyectos frontend con Vanilla JS y/o React y la filosofía de los componentes web, configurado y automatizado con Webpack.",
+  "description": "A kit to start frontend projects with Vanilla JS and / or React and the philosophy of web components, configured and automated with Webpack.",
   "main": "src/index.js",
-  "browserslist": [ "> 5%", "ie > 10" ],
+  "browserslist": [
+    "> 5%",
+    "ie > 10"
+  ],
   "scripts": {
     "dev": "webpack -d --watch --colors",
     "prod": "webpack -p",
