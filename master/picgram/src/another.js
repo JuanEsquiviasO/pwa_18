@@ -30,7 +30,7 @@ ReactDOM.render(
 )
 
 console.log(
-  'Código del bundle another.js con React',
-  producto(5, 6),
-  division(4, 8)
+	'Bundle code another.js with React',
+  producto(4, 6),
+  division(16, 8)
 )

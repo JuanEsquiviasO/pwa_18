@@ -21,7 +21,7 @@ const page = `
 document.getElementById('root').innerHTML = page
 
 console.log(
-  'Código del bundle index.js con Vanilla JS',
-  suma(5, 6),
-  resta(4, 8)
+  'Code of the bundle index.js with Vanilla JS',
+  suma(15, 35),
+  resta(30, 15)
 )
