@@ -7,7 +7,7 @@ const webpack = require('webpack'),
 
 module.exports = {
   context: srcDir,
-  devtool: 'hidden-source-map',
+  devtool: 'source-map',
   entry: {
     script: './index.js',
     another_script: './another.js'
